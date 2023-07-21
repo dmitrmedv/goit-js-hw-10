@@ -16,7 +16,3 @@ function markup(data) {
 function renderOptions(el) {
   breedSelectRef.insertAdjacentElement('beforebegin', el);
 }
-
-// function renderOptions(el) {
-//   breedSelectRef.insertAdjacentElement('beforebegin', el);
-// }
