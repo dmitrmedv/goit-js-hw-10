@@ -1,13 +1,16 @@
-const { throttle } = require('lodash');
+import axios from 'axios';
 
-const APY_KEY =
+// axios.defaults.baseURL = 'https://api.thecatapi.com/v1/images/search';
+
+const BASE_URL = 'https://api.thecatapi.com/v1/images/search';
+axios.defaults.headers.common['x-api-key'] =
   'live_lYmOKTQRHsB8sJe9ygzuQe7FXcc2ZvtWiVnNozCi85ub5YUZiLk8YnrbwAneZI04';
 
-const BASE_URL =
-  'https://api.thecatapi.com/v1/images/search?limit=10&breed_ids=beng&api_key=REPLACE_ME';
-
-function fetchCat() {
-  return fetch(`BASE_URL`).then(response => response.json());
-}
+// function fetchCat(breed) {
+//   return axios
+//     .get(`${BASE_URL}?breed_ids=${breed}`)
+//     .then(resp => resp.data)
+//     .catch(err => console.log(err));
+// }
 
 export { fetchCat };
