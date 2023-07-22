@@ -1,0 +1,29 @@
+.cat-info {
+  display: flex;
+  padding: 15px;
+}
+
+.cat-info img {
+  display: block;
+  width: 350px;
+  height: 350px;
+  object-fit: cover;
+  margin-right: 20px;
+}
+
+.cat-info h2,
+p {
+  margin: 0;
+  margin-bottom: 15px;
+}
+
+.cat-info p > span {
+  font-weight: bold;
+}
+.infobox {
+  width: 600px;
+}
+
+.breed-select {
+  margin-left: 15px;
+}
