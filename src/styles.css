@@ -5,9 +5,8 @@
 
 .cat-info img {
   display: block;
-  width: 350px;
-  height: 350px;
-  object-fit: cover;
+  width: 500px;
+  object-fit: contain;
   margin-right: 20px;
 }
 
@@ -26,4 +25,8 @@ p {
 
 .breed-select {
   margin-left: 15px;
+}
+
+.hide {
+  display: none;
 }

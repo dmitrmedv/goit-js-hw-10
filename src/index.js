@@ -5,17 +5,16 @@ const catInfoRef = document.querySelector('.cat-info');
 const loaderRef = document.querySelector('.loader');
 const errorRef = document.querySelector('.error');
 
-loaderRef.style.display = 'none';
-errorRef.style.display = 'none';
-
 breedSelectRef.addEventListener('change', selectCat);
+
+loadBreeds();
 
 function selectCat(event) {
   catInfoRef.innerHTML = '';
-  loaderRef.style.display = 'block';
-  // setTimeout(() => {
   fetchCatByBreed(event.target.value)
     .then(({ data }) => {
+      errorRef.classList.add('hide');
+      loaderRef.classList.toggle('hide');
       let { name, description, temperament } = data[0].breeds[0];
       let { url } = data[0];
       catInfoRef.innerHTML = markupCatCard({
@@ -25,16 +24,21 @@ function selectCat(event) {
         url,
       });
     })
-    .catch(error => (errorRef.style.display = 'block'))
-    .finally((loaderRef.style.display = 'none'));
-  // }, 3000);
+    .catch(error => errorRef.classList.remove('hide'))
+    .finally(loaderRef.classList.toggle('hide'));
 }
 
-fetchBreeds()
-  .then(({ data }) => {
-    breedSelectRef.innerHTML = markupOptions(data);
-  })
-  .catch(error => console.log(error));
+function loadBreeds() {
+  loaderRef.classList.add('hide');
+  return fetchBreeds()
+    .then(({ data }) => {
+      breedSelectRef.classList.toggle('hide');
+      breedSelectRef.innerHTML = markupOptions(data);
+      loaderRef.classList.remove('hide');
+    })
+    .catch(error => errorRef.classList.remove('hide'));
+  // .finally(loaderRef.classList.toggle('hide'));
+}
 
 function markupOptions(data) {
   return data
