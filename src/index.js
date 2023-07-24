@@ -5,12 +5,7 @@ import Notiflix from 'notiflix';
 const breedSelectRef = document.querySelector('.breed-select');
 const catInfoRef = document.querySelector('.cat-info');
 const loaderRef = document.querySelector('.loader');
-console.log(loaderRef);
-const errorRef = document.querySelector('.error');
-
-new SlimSelect({
-  select: '.breed-selec',
-});
+// const errorRef = document.querySelector('.error');
 
 breedSelectRef.addEventListener('change', selectCat);
 
@@ -19,6 +14,7 @@ loadBreeds();
 function selectCat(event) {
   catInfoRef.innerHTML = '';
   loaderRef.classList.remove('hide');
+
   // setTimeout(() => {
   fetchCatByBreed(event.target.value)
     .then(({ data }) => {
@@ -46,11 +42,16 @@ function selectCat(event) {
 
 function loadBreeds() {
   loaderRef.classList.remove('hide');
+
   // setTimeout(() => {
   return fetchBreeds()
     .then(({ data }) => {
       breedSelectRef.classList.remove('hide');
       breedSelectRef.innerHTML = markupOptions(data);
+      new SlimSelect({
+        select: breedSelectRef,
+        settings: {},
+      });
     })
     .catch(() =>
       Notiflix.Notify.failure(
