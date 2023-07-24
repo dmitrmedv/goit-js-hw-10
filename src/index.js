@@ -1,9 +1,16 @@
+import SlimSelect from 'slim-select';
 import { fetchBreeds, fetchCatByBreed } from './cat-api';
+import Notiflix from 'notiflix';
 
 const breedSelectRef = document.querySelector('.breed-select');
 const catInfoRef = document.querySelector('.cat-info');
 const loaderRef = document.querySelector('.loader');
+console.log(loaderRef);
 const errorRef = document.querySelector('.error');
+
+new SlimSelect({
+  select: '.breed-selec',
+});
 
 breedSelectRef.addEventListener('change', selectCat);
 
@@ -11,10 +18,10 @@ loadBreeds();
 
 function selectCat(event) {
   catInfoRef.innerHTML = '';
+  loaderRef.classList.remove('hide');
+  // setTimeout(() => {
   fetchCatByBreed(event.target.value)
     .then(({ data }) => {
-      errorRef.classList.add('hide');
-      loaderRef.classList.toggle('hide');
       let { name, description, temperament } = data[0].breeds[0];
       let { url } = data[0];
       catInfoRef.innerHTML = markupCatCard({
@@ -24,20 +31,37 @@ function selectCat(event) {
         url,
       });
     })
-    .catch(error => errorRef.classList.remove('hide'))
-    .finally(loaderRef.classList.toggle('hide'));
+    // .catch(error => errorRef.classList.remove('hide'))
+    .catch(() =>
+      Notiflix.Notify.failure(
+        'Oops! Something went wrong! Try reloading the page!',
+        {
+          position: 'left-top',
+        }
+      )
+    )
+    .finally(loaderRef.classList.add('hide'));
+  // }, 1000);
 }
 
 function loadBreeds() {
-  loaderRef.classList.add('hide');
+  loaderRef.classList.remove('hide');
+  // setTimeout(() => {
   return fetchBreeds()
     .then(({ data }) => {
-      breedSelectRef.classList.toggle('hide');
+      breedSelectRef.classList.remove('hide');
       breedSelectRef.innerHTML = markupOptions(data);
-      loaderRef.classList.remove('hide');
     })
-    .catch(error => errorRef.classList.remove('hide'));
-  // .finally(loaderRef.classList.toggle('hide'));
+    .catch(() =>
+      Notiflix.Notify.failure(
+        'Oops! Something went wrong! Try reloading the page!',
+        {
+          position: 'left-top',
+        }
+      )
+    )
+    .finally(loaderRef.classList.add('hide'));
+  // }, 1000);
 }
 
 function markupOptions(data) {
